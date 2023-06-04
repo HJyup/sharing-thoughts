@@ -8,19 +8,25 @@ import { prisma } from '@/pages/api/client';
 import { Posts } from '@/types/Post';
 
 export const getServerSideProps: GetServerSideProps = async () => {
+  let count = 0;
   const session = await getSession();
   const posts = await prisma.post.findMany({
     include: {
       user: true,
     },
   });
-  console.log(session?.user?.email);
-  const user = await prisma.user.findMany({
-    select: {
-      posts: true,
-    },
-  });
-  const count = user[0].posts ? user[0].posts.length : 0;
+  if (session?.user?.email) {
+    const user = await prisma.user.findMany({
+      where: {
+        email: session?.user?.email,
+      },
+      select: {
+        posts: true,
+      },
+    });
+
+    count = user[0].posts && user[0].posts.length;
+  }
   return {
     props: { posts, count },
   };
