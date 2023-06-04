@@ -20,7 +20,7 @@ export const getServerSideProps: GetServerSideProps = async () => {
       posts: true,
     },
   });
-  const count = user[0].posts.length;
+  const count = user[0].posts ? user[0].posts.length : 0;
   return {
     props: { posts, count },
   };
