@@ -1,6 +1,20 @@
-import '@/styles/globals.css'
-import type { AppProps } from 'next/app'
+import { Inter } from 'next/font/google';
 
-export default function App({ Component, pageProps }: AppProps) {
-  return <Component {...pageProps} />
-}
+import '@/styles/globals.css';
+
+const inter = Inter({ subsets: ['latin'] });
+
+import { AppProps } from 'next/app';
+import { SessionProvider } from 'next-auth/react';
+
+const App = ({ Component, pageProps }: AppProps) => {
+  return (
+    <SessionProvider session={pageProps.session}>
+      <div className={`background min-h-screen ${inter.className}`}>
+        <Component {...pageProps} />
+      </div>
+    </SessionProvider>
+  );
+};
+
+export default App;
