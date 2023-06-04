@@ -1,8 +1,8 @@
 export interface PostProps {
-  img: string;
+  img: string | undefined;
   title: string;
   text: string;
-  name: string;
+  name: string | undefined;
 }
 
 const Post = ({ img, title, text, name }: PostProps) => {
