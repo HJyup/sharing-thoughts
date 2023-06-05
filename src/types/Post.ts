@@ -11,5 +11,4 @@ export type Post = {
 
 export type Posts = {
   posts: Post[];
-  count: number;
 };
