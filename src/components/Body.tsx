@@ -57,12 +57,12 @@ const Body = ({ email, setShowModal, status, showModal }: BodyProps) => {
               showState={() => setShowModal(true)}
               isDisable={isDisable}
             />
+          ) : isLoading || status === 'unauthenticated' ? (
+            <div className="flex justify-center items-center m-8">
+              <Loader />
+            </div>
           ) : (
-            isLoading && (
-              <div className="flex justify-center items-center m-8">
-                <Loader />
-              </div>
-            )
+            <></>
           )}
         </div>
         {email && (
