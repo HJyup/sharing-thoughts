@@ -14,9 +14,9 @@ async function handle(req: NextApiRequest, res: NextApiResponse) {
         posts: true,
       },
     });
-
-    res.status(201).json(posts[0].posts.length);
+    return res.status(201).json(posts[0].posts.length);
   }
+  return res.status(204);
 }
 
 export default handle;
