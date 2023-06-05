@@ -28,13 +28,6 @@ const Body = ({ email, setShowModal, status, showModal }: BodyProps) => {
     refetchOnWindowFocus: false,
   });
 
-  if (isLoading)
-    return (
-      <div className="h-80 flex justify-center items-center">
-        <Loader />
-      </div>
-    );
-
   const isDisable = count > 0;
 
   return (
@@ -59,11 +52,15 @@ const Body = ({ email, setShowModal, status, showModal }: BodyProps) => {
           This webpage is created just for sharing your thoughts.
         </p>
         <div className="h-10">
-          {status === 'authenticated' && (
+          {status === 'authenticated' && !isLoading ? (
             <Controls
               showState={() => setShowModal(true)}
               isDisable={isDisable}
             />
+          ) : (
+            <div className="flex justify-center items-center m-8">
+              <Loader />
+            </div>
           )}
         </div>
         {email && (
