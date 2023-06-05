@@ -1,5 +1,10 @@
+import { useQuery } from 'react-query';
+import { getSession } from 'next-auth/react';
+
 import Controls from '@/components/Controls';
+import Loader from '@/components/Loader';
 import Modal from '@/components/Modal';
+import { client } from '@/pages/api/axios-client';
 
 export interface BodyProps {
   email: string | null | undefined;
@@ -8,7 +13,30 @@ export interface BodyProps {
   showModal: boolean;
 }
 
+const getCount = async () => {
+  const session = await getSession();
+  const post = await client.get('api/count', {
+    params: { email: session?.user?.email },
+  });
+
+  return post.data;
+};
+
 const Body = ({ email, setShowModal, status, showModal }: BodyProps) => {
+  const { isLoading, data: count } = useQuery(['count'], () => getCount(), {
+    retry: false,
+    refetchOnWindowFocus: false,
+  });
+
+  if (isLoading)
+    return (
+      <div className="h-80 flex justify-center items-center">
+        <Loader />
+      </div>
+    );
+
+  const isDisable = count > 0;
+
   return (
     <div className="mx-auto p-6">
       <div className="hidden sm:mb-8 sm:flex sm:justify-center">
@@ -30,9 +58,14 @@ const Body = ({ email, setShowModal, status, showModal }: BodyProps) => {
         <p className="mt-6 text-lg leading-8 text-neutral-300">
           This webpage is created just for sharing your thoughts.
         </p>
-        {status === 'authenticated' && (
-          <Controls showState={() => setShowModal(true)} />
-        )}
+        <div className="h-10">
+          {status === 'authenticated' && (
+            <Controls
+              showState={() => setShowModal(true)}
+              isDisable={isDisable}
+            />
+          )}
+        </div>
         {email && (
           <Modal
             isVisible={showModal}

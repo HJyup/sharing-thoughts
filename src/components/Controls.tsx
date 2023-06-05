@@ -1,30 +1,11 @@
-import { useQuery } from 'react-query';
-import { getSession, signOut } from 'next-auth/react';
-
-import { client } from '@/pages/api/axios-client';
+import { signOut } from 'next-auth/react';
 
 export interface ControlsProps {
   showState: (value: boolean) => void;
+  isDisable: boolean;
 }
 
-const getCount = async () => {
-  const session = await getSession();
-  const post = await client.get('api/count', {
-    params: { email: session?.user?.email },
-  });
-
-  return post.data;
-};
-
-const Controls = ({ showState }: ControlsProps) => {
-  const { isLoading, data: count } = useQuery(['count'], () => getCount(), {
-    retry: false,
-    refetchOnWindowFocus: false,
-  });
-
-  if (isLoading) return;
-
-  const isDisable = count > 0;
+const Controls = ({ showState, isDisable }: ControlsProps) => {
   return (
     <div className="mt-10 flex items-center justify-center gap-x-6">
       <button

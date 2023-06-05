@@ -43,7 +43,7 @@ const Modal = ({ isVisible, onClose, email }: ModalProps) => {
               </label>
               <input
                 type="text"
-                className="bg-transparent text-neutral-100 text-sm font-bold block w-full p-2.5 border-r-2 border-r-violet-700"
+                className="bg-transparent text-neutral-100 text-sm font-bold block w-full p-2.5 border-2 border-neutral-800 rounded-md"
                 placeholder="Enter your title"
                 required
                 maxLength={30}
@@ -53,7 +53,7 @@ const Modal = ({ isVisible, onClose, email }: ModalProps) => {
                 Description
               </label>
               <textarea
-                className="bg-transparent text-neutral-100 text-sm block w-full p-2.5 border-r-2 border-violet-700"
+                className="bg-transparent text-neutral-100 text-sm block w-full p-2.5 border-2 border-neutral-800 rounded-md"
                 placeholder="Write your thoughts here..."
                 required
                 maxLength={100}
